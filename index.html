@@ -3,11 +3,10 @@
 <head>
     <title>Bubble Effect</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <script src="/theofficialvkr-sw-register.js" defer></script>
-     <link rel="manifest" crossorigin="use-credentials" href="/manifest.json">
+      <script src="theofficialvkr-sw-register.js" defer></script>
+     <link rel="manifest" crossorigin="use-credentials" href="manifest.json">
 
-</head>
-    <style>
+<style>
         *{
             margin: 0;
             padding: 0;
@@ -25,7 +24,7 @@
         }
         .box{
             width:100%;
-            height:300px;
+            height:auto;
             background: transparent;
             position: absolute;
             top:50%;
@@ -192,6 +191,7 @@
             box-shadow: 0 0 10px cyan,0 0 10px cyan, 0 0 15px cyan, 0 0 15px cyan;
         }
     </style>
+</head>
     <body>
     <div class="container">
         
@@ -219,7 +219,6 @@
         <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
         <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
         </div>
-    </body>
     <script>
     let input = document.getElementById("inpt");
     let button = document.getElementById("btn");
@@ -228,4 +227,5 @@
       } else alert("Mobile Number Daal!");
     })
     </script>
+    </body>
 </html>
