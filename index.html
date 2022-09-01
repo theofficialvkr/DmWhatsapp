@@ -1,0 +1,213 @@
+<!doctype html>
+<html>
+<head>
+    <title>Bubble Effect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        img[alt="www.000webhost.com"]{
+            display:none;
+        }
+        .container{
+            width:100%;
+            height: 100vh;
+            position: relative;
+            background: linear-gradient(lightblue,blue,black);
+            overflow: hidden;
+        }
+        .box{
+            width:100%;
+            height:300px;
+            background: transparent;
+            position: absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .box h1{
+            font-size: 12vmin;
+            font-weight: 700;
+            background: radial-gradient(circle,yellow,green,red,cyan);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color:transparent;
+        }
+        .container span{
+            display: inline-block;
+            height:80px;
+            width: 80px;
+            box-shadow:inset 0 0 15px white;
+            position: absolute;
+            top:-20%;
+            border-radius: 50%;  
+            animation: ani 15s linear  infinite;
+        }
+        .container span:nth-child(1){
+            left: 0;
+            animation-delay: 1s;
+        }
+        .container span:nth-child(2){
+            left: 90px;
+            animation-delay: 0.6s;
+        }
+        .container span:nth-child(3){
+            left: 180px;
+            animation-delay: 2s;
+        }
+        .container span:nth-child(4){
+            left: 270px;
+            animation-delay: 3s;
+        }
+        .container span:nth-child(5){
+            left: 360px;
+            animation-delay: 4s;
+        }
+        .container span:nth-child(6){
+            left: 450px;
+            animation-delay: 2s;
+        }
+        .container span:nth-child(7){
+            left: 540px;
+            animation-delay: 6s;
+        }
+        .container span:nth-child(8){
+            left: 630px;
+            animation-delay: 5s;
+        }
+        .container span:nth-child(9){
+            left: 720px;
+            animation-delay: 1s;
+        }
+        .container span:nth-child(10){
+            left: 810px;
+            animation-delay: 4s;
+        }
+       .container span:nth-child(11){
+            left: 900px;
+            animation-delay: 1s;
+        }
+        .container span:nth-child(12){
+            left: 990px;
+            animation-delay: 0.6s;
+        }
+        .container span:nth-child(13){
+            left: 1080px;
+            animation-delay: 2s;
+        }
+        .container span:nth-child(14){
+            left: 1170px;
+            animation-delay: 3s;
+        }
+        .container span:nth-child(15){
+            left: 1260px;
+            animation-delay: 2s;
+        }
+        .container span:nth-child(16){
+            left: 1350px;
+            animation-delay: 1s;
+        }
+        .container span:nth-child(17){
+            left: 1440px;
+            animation-delay: 3s;
+        }
+        .container span:nth-child(18){
+            left: 1530px;
+            animation-delay: 2s;
+        }
+        @keyframes ani {
+            0%{
+                transform: scale(0.3);
+            }
+            50%{
+                transform: scale(2.6) translateY(140vh);
+            }
+            100%{
+                transform: scale(0.2);
+            }
+        }
+        .container span::before{
+            content: "";
+            width:20px;
+            height:20px;
+            background: white;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            border-radius: 50px;
+            filter: blur(3px);
+        }
+        #inpt{
+            width:90%;
+            height: 50px;
+            padding:0 20px;
+            border-radius:8px;
+            outline:none;
+            border:none;
+            font-weight: 700;
+            background: linear-gradient(to bottom left,cyan,yellow,red);
+            -webkit-background-clip: text;
+            color:transparent;
+            font-size: 2rem;
+            box-shadow: 0 0 10px white,0 0 10px white,0 0 10px white;
+            text-shadow: 1px 5px 3px rgba(255,255,255,0.35);
+            
+        }
+        #btn{
+            width: 200px;
+            padding: 10px 30px;
+            margin: 15px auto;
+            font-size: 1.7rem;
+            color: yellow;
+            cursor: pointer;
+            text-shadow: 1px 1px 1px white;
+            background: transparent;
+            border-radius: 7px;
+            box-shadow: 0 0 10px cyan,0 0 10px cyan, 0 0 15px cyan, 0 0 15px cyan;
+        }
+    </style>
+    <body>
+    <div class="container">
+        <div class="box">
+        <h1>Send Message</h1>
+            <input required placeholder="Mobile Number" id="inpt" type="number">
+                <button id="btn">Send</button>
+        </div>
+        <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
+        <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
+        <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
+        <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
+        <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
+        <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
+        <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
+        <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
+        <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
+        <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
+        <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
+        <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
+        <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
+        <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
+        <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
+        <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
+        <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
+        <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
+        </div>
+    </body>
+    <script>
+    let input = document.getElementById("inpt");
+    let button = document.getElementById("btn");
+    button.addEventListener("click",()=>{
+      if(input.value.length !== 0){       window.location.href="https://api.whatsapp.com/send?phone=91"+input.value;
+      } else alert("Mobile Number Daal!");
+    })
+    </script>
+</html>
