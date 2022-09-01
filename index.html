@@ -3,6 +3,8 @@
 <head>
     <title>Bubble Effect</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script src="/theofficialvkr-sw-register.js" defer></script>
+     <link rel="manifest" crossorigin="use-credentials" href="/manifest.json">
 
 </head>
     <style>
@@ -172,12 +174,28 @@
             text-shadow: 1px 1px 1px white;
             background: transparent;
             border-radius: 7px;
+            outline:0;
+            border:0;
+            box-shadow: 0 0 10px cyan,0 0 10px cyan, 0 0 15px cyan, 0 0 15px cyan;
+        }
+        .add-button{
+            width:300px;
+            padding:15px 50px;
+            font-size:6vmin;
+            margin: 15px auto;
+            color: red;
+            cursor: pointer;
+            text-shadow: 1px 1px 1px white;
+            border-radius: 7px;
+            outline:0;
+            border:0;
             box-shadow: 0 0 10px cyan,0 0 10px cyan, 0 0 15px cyan, 0 0 15px cyan;
         }
     </style>
     <body>
     <div class="container">
-        <div class="box">
+        
+        <div class="box"> <button class="add-button"> Download Web APP </button>
         <h1>Send Message</h1>
             <input required placeholder="Mobile Number" id="inpt" type="number">
                 <button id="btn">Send</button>
