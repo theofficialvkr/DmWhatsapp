@@ -197,7 +197,7 @@
         
         <div class="box"> <button class="add-button"> Download Web APP </button>
         <h1>Send Message</h1>
-            <input required placeholder="Mobile Number" id="inpt" type="number">
+            <input pattern="[0-9]{10}" required placeholder="Mobile Number" id="inpt" type="number" maxlength="10">
                 <button id="btn">Send</button>
         </div>
         <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
