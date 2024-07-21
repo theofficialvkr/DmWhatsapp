@@ -220,10 +220,16 @@
         <span onmouseover="this.style='display:none;'" onmouseout="this.style='display:initial;'"></span>
         </div>
 
-        <script>
+<script>
     async function getCountryCode() {
         try {
-            const response = await fetch('http://ip-api.com/json/?fields=status,countryCode');
+            // First, get the user's IP address
+            const ipResponse = await fetch('https://api.ipify.org?format=json');
+            const ipData = await ipResponse.json();
+            const ipAddress = ipData.ip;
+            
+            // Use the IP address to get the user's country code
+            const response = await fetch(`http://ip-api.com/json/${ipAddress}?fields=status,countryCode`);
             const data = await response.json();
             if (data.status !== "success") throw new Error(data.message);
             
@@ -267,9 +273,10 @@
             return dialingCodes[countryCode] || "91"; // Default to India if country not found
         } catch (error) {
             console.error('Error fetching country code:', error);
-            return "91"; // Default to India in case of error
+            return "0"; // Default to India in case of error
         }
     }
+                
 
     document.addEventListener("DOMContentLoaded", async () => {
         const input = document.getElementById("inpt");
