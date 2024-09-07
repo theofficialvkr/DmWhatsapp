@@ -1,4 +1,5 @@
 const countryPhoneLengths = {
+    // Country codes and their phone number lengths
     '+1': 10, // USA, Canada
     '+20': 10, // Egypt
     '+30': 10, // Greece
@@ -187,6 +188,7 @@ const countrySelect = document.getElementById('countrySelect');
 const sendMessageButton = document.getElementById('sendMessage');
 const errorElement = document.getElementById('error');
 
+// Store country code globally
 // Store country code globally
 let currentCountryCode = '+91'; // Default to India if no API response
 
