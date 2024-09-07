@@ -2,81 +2,78 @@ document.addEventListener('DOMContentLoaded', function () {
     const phoneNumberInput = document.getElementById('phoneNumber');
     const sendMessageBtn = document.getElementById('sendMessage');
     const errorMessage = document.getElementById('error');
-    let countryCode = '+91'; // Default to India (can be dynamically fetched later)
+    const installAppBtn = document.getElementById('installApp');
+    const messageInput = document.getElementById('message'); // Custom message input
+    const countrySelect = document.getElementById('countrySelect'); // Dropdown for manual country selection
+    let countryCode = ''; // Fetched country code
+    let isCountryCodeFetched = false;
 
-    // Fetch country code dynamically using user's IP
-    fetch('https://ipapi.co/json/')
-        .then(response => response.json())
-        .then(data => {
-            countryCode = data.country_calling_code || '+91'; // Default to +91 if no country code found
-        })
-        .catch(() => {
-            countryCode = '+91'; // If there's an error, fallback to +91
-        });
+    // Load and cache country codes and phone lengths dynamically
+    const countryPhoneLengths = {}; // Replace with real data for each country
+    let countryDataLoaded = false;
+
+    // Fetch country code dynamically using IP
+    async function fetchCountryCode() {
+        try {
+            const response = await fetch('https://ipapi.co/json/');
+            const data = await response.json();
+            countryCode = data.country_calling_code || ''; // Set the country calling code
+            isCountryCodeFetched = true;
+            if (countryCode) {
+                countrySelect.value = countryCode;
+            }
+        } catch (error) {
+            console.error("Country code fetch failed: ", error);
+            displayError('Unable to determine country code. Please manually select your country.');
+        }
+    }
+
+    fetchCountryCode();
+
+    // Validate phone number based on country and length
+    function validatePhoneNumber(phoneNumber) {
+        const validLength = countryPhoneLengths[countryCode];
+        return phoneNumber.length === validLength && /^\d+$/.test(phoneNumber);
+    }
 
     // Prevent any non-digit input
     phoneNumberInput.addEventListener('input', function () {
-        this.value = this.value.replace(/[^\d]/g, ''); // Allow only digits
+        this.value = this.value.replace(/[^\d]/g, ''); // Only allow digits
     });
 
-    // Add an event listener for the "Send WhatsApp Message" button
+    // Add event listener to send WhatsApp message
     sendMessageBtn.addEventListener('click', function () {
         const phoneNumber = phoneNumberInput.value.trim();
+        const message = messageInput.value.trim();
         const fullPhoneNumber = countryCode + phoneNumber;
-        
-        // Validation: Ensure number only contains digits
-        if (!/^\d+$/.test(phoneNumber)) {
-            displayError('Please enter a valid mobile number (digits only).');
+
+        if (!isCountryCodeFetched || !validatePhoneNumber(phoneNumber)) {
+            displayError('Please enter a valid mobile number.');
             return;
         }
 
-        // Validation: Check phone number length based on country
-        const validLength = countryPhoneLengths[countryCode];
-        if (phoneNumber.length !== validLength) {
-            displayError(`The mobile number for ${countryCode} must be ${validLength} digits long.`);
-            return;
-        }
-
-        // If everything is valid, clear any error message
+        // Clear any error messages
         clearError();
 
-        // Open WhatsApp with the correct number
-        const whatsappURL = `https://wa.me/${fullPhoneNumber}`;
+        // Prepare WhatsApp URL with optional message
+        const whatsappURL = `https://wa.me/${fullPhoneNumber}?text=${encodeURIComponent(message)}`;
         window.open(whatsappURL, '_blank');
     });
 
-    // Helper function to display error messages
-    function displayError(message) {
-        errorMessage.textContent = message;
-        errorMessage.style.display = 'block';
-        phoneNumberInput.classList.add('error'); // Optional: Add a CSS class for error highlighting
-    }
-
-    // Helper function to clear error messages
-    function clearError() {
-        errorMessage.textContent = '';
-        errorMessage.style.display = 'none';
-        phoneNumberInput.classList.remove('error');
-    }
-
-    // Install app functionality (PWA)
+    // Install app functionality
     let deferredPrompt;
-    const installAppBtn = document.getElementById('installApp');
 
     window.addEventListener('beforeinstallprompt', (e) => {
-        // Prevent the mini-infobar from appearing
         e.preventDefault();
-        // Store the event so it can be triggered later
         deferredPrompt = e;
-        // Show the install button
         installAppBtn.style.display = 'block';
 
         installAppBtn.addEventListener('click', () => {
-            installAppBtn.style.display = 'none'; // Hide the button
-            deferredPrompt.prompt(); // Show the install prompt
+            installAppBtn.style.display = 'none';
+            deferredPrompt.prompt();
             deferredPrompt.userChoice.then((choiceResult) => {
                 if (choiceResult.outcome === 'accepted') {
-                    console.log('User accepted the install prompt');
+                    console.log('User installed the app');
                 } else {
                     console.log('User dismissed the install prompt');
                 }
@@ -86,6 +83,17 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     window.addEventListener('appinstalled', () => {
-        console.log('PWA was installed');
+        console.log('PWA installed');
     });
+
+    // Helper functions
+    function displayError(message) {
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
+    }
+
+    function clearError() {
+        errorMessage.textContent = '';
+        errorMessage.style.display = 'none';
+    }
 });
