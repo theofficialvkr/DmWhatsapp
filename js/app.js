@@ -1,23 +1,30 @@
-// Initialize the deferredPrompt variable
+// Initialize the deferredPrompt variable for PWA install
 let deferredPrompt;
 
 // Function to validate phone number based on country length
 function validatePhoneNumber(phoneNumber, countryCode) {
     const phoneLength = countryPhoneLengths[countryCode];
-    if (phoneLength === undefined) {
+    if (!phoneLength) {
         console.error(`Country code ${countryCode} is not defined in phone length data.`);
         return false;
     }
     return phoneNumber.length === phoneLength;
 }
 
-// Get user location to auto-detect country code and set placeholder
+// Restrict input to numbers only
+document.querySelector('#phoneNumber').addEventListener('input', function(e) {
+    this.value = this.value.replace(/\D/g, ''); // Replace any non-numeric characters
+});
+
+// Automatically insert country code and validate input on the fly
 fetch('https://ipapi.co/json')
     .then(response => response.json())
     .then(data => {
-        const countryCode = data.country_calling_code;  // Extract country code from the API response
+        const countryCode = data.country_calling_code;
         if (countryCode) {
-            document.querySelector('#phoneNumber').placeholder = `Enter Mobile Number (${countryCode})`;
+            const phoneNumberInput = document.querySelector('#phoneNumber');
+            phoneNumberInput.value = countryCode; // Automatically insert country code
+            phoneNumberInput.setAttribute('data-country-code', countryCode);
         } else {
             document.querySelector('#error').textContent = 'Unable to determine country code. Please check your input.';
         }
@@ -27,39 +34,48 @@ fetch('https://ipapi.co/json')
         document.querySelector('#error').textContent = 'Unable to determine country code. Please check your input.';
     });
 
-// WhatsApp message sending logic
+// WhatsApp message sending logic with validation
 document.querySelector('#sendMessage').addEventListener('click', () => {
-    const phoneNumber = document.querySelector('#phoneNumber').value.trim();
-    const placeholderText = document.querySelector('#phoneNumber').placeholder;
-    const countryCodeMatch = placeholderText.match(/(.*?)/);  // Extract country code from the placeholder
+    const phoneNumberInput = document.querySelector('#phoneNumber');
+    const fullPhoneNumber = phoneNumberInput.value.trim();
+    const countryCode = phoneNumberInput.getAttribute('data-country-code');
+    const phoneNumberWithoutCode = fullPhoneNumber.replace(countryCode, '').trim();
 
-    if (!countryCodeMatch) {
-        document.querySelector('#error').textContent = 'Country code is missing in placeholder.';
-        return;
-    }
-
-    const countryCode = countryCodeMatch[1];
-
-    if (!validatePhoneNumber(phoneNumber, countryCode)) {
+    // Validate the phone number based on country code
+    if (!validatePhoneNumber(phoneNumberWithoutCode, countryCode)) {
         document.querySelector('#error').textContent = `Invalid phone number for ${countryCode}. Expected length: ${countryPhoneLengths[countryCode]}`;
         return;
     }
 
-    // Open WhatsApp chat in a new tab
-    window.open(`https://wa.me/${countryCode.replace('+', '')}${phoneNumber}`, '_blank');
+    // If validation passes, open WhatsApp chat
+    window.open(`https://wa.me/${countryCode.replace('+', '')}${phoneNumberWithoutCode}`, '_blank');
+});
+
+// Real-time validation while typing
+document.querySelector('#phoneNumber').addEventListener('input', () => {
+    const phoneNumberInput = document.querySelector('#phoneNumber');
+    const fullPhoneNumber = phoneNumberInput.value.trim();
+    const countryCode = phoneNumberInput.getAttribute('data-country-code');
+    const phoneNumberWithoutCode = fullPhoneNumber.replace(countryCode, '').trim();
+
+    if (validatePhoneNumber(phoneNumberWithoutCode, countryCode)) {
+        document.querySelector('#error').textContent = '';
+        document.querySelector('#sendMessage').disabled = false;
+    } else {
+        document.querySelector('#error').textContent = `Invalid phone number for ${countryCode}. Expected length: ${countryPhoneLengths[countryCode]}`;
+        document.querySelector('#sendMessage').disabled = true;
+    }
 });
 
 // Handle the install prompt for PWA
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
-    console.log('beforeinstallprompt event triggered');
     deferredPrompt = e;
     document.querySelector('#installApp').style.display = 'block';
 });
 
 document.querySelector('#installApp').addEventListener('click', () => {
     if (deferredPrompt) {
-        console.log('Install button clicked');
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choice) => {
             if (choice.outcome === 'accepted') {
@@ -68,9 +84,6 @@ document.querySelector('#installApp').addEventListener('click', () => {
                 console.log('User dismissed the install prompt');
             }
             deferredPrompt = null;
-            document.querySelector('#installApp').style.display = 'none';
         });
-    } else {
-        console.warn('Install prompt is not available.');
     }
 });
