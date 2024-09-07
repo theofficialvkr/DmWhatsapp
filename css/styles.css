@@ -110,11 +110,11 @@ input[type="tel"]:focus {
     background-size: 24px 24px; /* Adjusted size for better visibility */
     background-repeat: no-repeat;
     background-position: 12px center;
-    width: 44px;
+    width: 30px;
     height: 24px;
     display: inline-block;
     vertical-align: middle;
-    margin-right: 12px; /* Space between icon and text */
+    margin-right: 20px; /* Space between icon and text */
 }
 
 /* Button Hover */
