@@ -184,6 +184,7 @@ const countryPhoneLengths = {
 
 
 
+
 const phoneInput = document.getElementById('phoneNumber');
 const countrySelect = document.getElementById('countrySelect');
 const sendMessageButton = document.getElementById('sendMessage');
