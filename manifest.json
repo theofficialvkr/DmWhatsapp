@@ -2,8 +2,8 @@
   "name": "Direct Message for WhatsApp",
   "short_name": "DM WhatsApp",
   "description": "Send WhatsApp messages without saving a number. A simple and fast way to initiate a WhatsApp chat.",
-  "start_url": "/directmessage",
-  "scope": "/directmessage/",
+  "start_url": "/dmwhatsapp",
+  "scope": "/dmwhatsapp/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#25D366",
@@ -32,8 +32,8 @@
   ],
   "shortcuts": [
     {
-      "name": "Send WhatsApp Message",
-      "short_name": "Send Message",
+      "name": "DM WhatsApp",
+      "short_name": "Dm Whatsapp",
       "description": "Quickly send a WhatsApp message to a new number",
       "url": "/directmessage",
       "icons": [{ "src": "images/dm.png", "sizes": "192x192", "type": "image/png" }]
@@ -42,17 +42,17 @@
   "related_applications": [
     {
       "platform": "play",
-      "url": "https://theofficialvkr.github.io/directmessage/"
+      "url": "https://theofficialvkr.github.io/dmwhatsapp/"
     },
     {
       "platform": "webapp",
-      "url": "https://theofficialvkr.github.io/directmessage"
+      "url": "https://theofficialvkr.github.io/dmwhatsapp"
     }
   ],
   "prefer_related_applications": false,
   "serviceworker": {
-    "src": "app/sw.js",
-    "scope": "/directmessage",
+    "src": "js/sw.js",
+    "scope": "/dmwhatsapp",
     "update_via_cache": "all"
   }
 }
