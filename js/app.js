@@ -1,5 +1,4 @@
 const countryPhoneLengths = {
-    // Country codes and their phone number lengths
     '+1': 10, '+20': 10, '+30': 10, '+31': 9, '+32': 9, '+33': 9, '+34': 9, '+36': 9, '+39': 10, 
     '+40': 10, '+41': 9, '+43': 10, '+44': 10, '+45': 8, '+46': 9, '+47': 8, '+48': 9, '+49': 11, 
     '+51': 9, '+52': 10, '+53': 8, '+54': 10, '+55': 11, '+56': 9, '+57': 10, '+58': 10, '+60': 9,
@@ -54,7 +53,6 @@ function populateCountrySelect() {
 
 // Update placeholder and global country code
 function updatePlaceholderAndCountryCode(countryCode) {
-    // Remove any leading '+' characters and re-add a single one
     countryCode = `+${countryCode.replace(/\++/g, '')}`;
     phoneInput.placeholder = `Enter mobile number (${countryCode})`;
     currentCountryCode = countryCode;
@@ -82,20 +80,24 @@ function validateAndSendMessage() {
 
     if (cleanPhoneNumber.length === 0) {
         errorElement.textContent = 'Phone number is required.';
+        errorElement.style.display = 'block'; // Show error
         return;
     }
 
     const length = countryPhoneLengths[currentCountryCode];
     if (!length) {
         errorElement.textContent = 'Invalid country code.';
+        errorElement.style.display = 'block'; // Show error
         return;
     }
 
     if (cleanPhoneNumber.length !== length) {
         errorElement.textContent = `Phone number must be ${length} digits long.`;
+        errorElement.style.display = 'block'; // Show error
         return;
     }
 
+    errorElement.style.display = 'none'; // Hide error if no validation issues
     const whatsappURL = `https://wa.me/${currentCountryCode}${cleanPhoneNumber}`;
     window.open(whatsappURL, '_blank');
 }
@@ -105,19 +107,5 @@ sendMessageButton.addEventListener('click', () => {
     validateAndSendMessage();
 });
 
-// Initialize app
-async function initializeApp() {
-    const countryCode = await fetchCountryDialingCode();
-    
-    if (countryCode) {
-        updatePlaceholderAndCountryCode(countryCode);
-    } else {
-        phoneInput.placeholder = 'Enter mobile number';
-        populateCountrySelect();
-        countrySelect.addEventListener('change', () => {
-            updatePlaceholderAndCountryCode(countrySelect.value);
-        });
-    }
-}
-
+// Initialize app on page load
 initializeApp();
