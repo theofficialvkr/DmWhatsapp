@@ -26,9 +26,11 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch('https://ipapi.co/json/')
             .then(response => response.json())
             .then(data => {
+                console.log('API Response:', data); // Debugging line
                 countryCode = data.country_calling_code || '';
                 if (countryCode) {
                     updatePlaceholder(countryCode);
+                    selectCountryContainer.style.display = 'none'; // Hide select country input
                 } else {
                     showCountrySelect();
                 }
@@ -53,13 +55,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 countrySelect.innerHTML = countries.map(country => 
                     `<option value="${country.code}">${country.name}</option>`
                 ).join('');
+                // Handle country selection change
+                countrySelect.addEventListener('change', handleCountryChange);
             })
             .catch(error => console.error('Unable to fetch countries list.', error));
     }
 
     // Update placeholder with country code
     function updatePlaceholder(code) {
-        phoneInput.placeholder = `Enter Mobile number (${code})`;
+        if (code) {
+            phoneInput.placeholder = `Enter Mobile number (${code})`;
+        }
     }
 
     // Validate phone number
@@ -74,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const phoneNumber = phoneInput.value.trim();
         if (validatePhoneNumber(phoneNumber)) {
             const fullNumber = `${countryCode}${phoneNumber}`;
+            console.log('Opening WhatsApp with number:', fullNumber); // Debugging line
             window.location.href = `https://wa.me/${fullNumber}`;
         } else {
             errorDiv.textContent = `Please enter a valid phone number with ${countryCode}.`;
@@ -85,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
         countryCode = countrySelect.value;
         updatePlaceholder(countryCode);
         phoneInput.focus();
+        selectCountryContainer.style.display = 'none'; // Hide select country input after selection
     }
 
     // Handle app install button
@@ -112,4 +120,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Initialize the app
     fetchCountryCode();
+    sendButton.addEventListener('click', handleSendMessage); // Attach event listener for send button
 });
