@@ -110,7 +110,7 @@ input[type="tel"]:focus {
     background-size: 24px 24px; /* Adjusted size for better visibility */
     background-repeat: no-repeat;
     background-position: 12px center;
-    width: 34px;
+    width: 44px;
     height: 24px;
     display: inline-block;
     vertical-align: middle;
