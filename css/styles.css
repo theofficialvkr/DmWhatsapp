@@ -55,7 +55,12 @@ button:hover {
     background-color: #128C7E;
 }
 
+.error {
+    border-color: red;
+}
+
 .error-message {
     color: red;
-    font-size: 14px;
+    font-size: 0.9rem;
+    display: none;
 }
