@@ -183,9 +183,6 @@ const countryPhoneLengths = {
 };
 
 
-
-
-
 const phoneInput = document.getElementById('phoneNumber');
 const countrySelect = document.getElementById('countrySelect');
 const sendMessageButton = document.getElementById('sendMessage');
@@ -218,10 +215,11 @@ function populateCountrySelect() {
 
 // Update placeholder and global country code
 function updatePlaceholderAndCountryCode(countryCode) {
-    // Ensure only a single '+' sign
-    const formattedCode = countryCode.startsWith('+') ? countryCode : `+${countryCode}`;
-    phoneInput.placeholder = `Enter mobile number (${formattedCode})`;
-    currentCountryCode = formattedCode;
+    if (!countryCode.startsWith('+')) {
+        countryCode = `+${countryCode}`;
+    }
+    phoneInput.placeholder = `Enter mobile number (${countryCode})`;
+    currentCountryCode = countryCode;
 }
 
 // Validate and send WhatsApp message
