@@ -1,4 +1,4 @@
-import countryPhoneLengths from './countryPhoneLengths.js';
+import countryPhoneLengths from 'js/countryPhoneLengths.js';
 
 const phoneInput = document.getElementById('phoneNumber');
 const countrySelect = document.getElementById('countrySelect');
