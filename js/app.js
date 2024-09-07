@@ -54,9 +54,8 @@ function populateCountrySelect() {
 
 // Update placeholder and global country code
 function updatePlaceholderAndCountryCode(countryCode) {
-    if (!countryCode.startsWith('+')) {
-        countryCode = `+${countryCode}`;
-    }
+    // Ensure only one '+' at the beginning
+    countryCode = countryCode.startsWith('+') ? countryCode : `+${countryCode}`;
     phoneInput.placeholder = `Enter mobile number (${countryCode})`;
     currentCountryCode = countryCode;
 }
