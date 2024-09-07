@@ -42,17 +42,17 @@
   "related_applications": [
     {
       "platform": "play",
-      "url": "https://theofficialvkr.github.io/dmwhatsapp/"
+      "url": "https://theofficialvkr.github.io/DmWhatsapp/"
     },
     {
       "platform": "webapp",
-      "url": "https://theofficialvkr.github.io/dmwhatsapp"
+      "url": "https://theofficialvkr.github.io/DmWhatsApp"
     }
   ],
   "prefer_related_applications": false,
   "serviceworker": {
     "src": "js/sw.js",
-    "scope": "/dmwhatsapp",
+    "scope": "/DmWhatsapp",
     "update_via_cache": "all"
   }
 }
