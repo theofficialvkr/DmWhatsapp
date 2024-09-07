@@ -1,12 +1,12 @@
 const CACHE_NAME = 'direct-message-cache-v1';
 const ASSETS_TO_CACHE = [
-    '/directmessage',
+    '/dmwhatsapp',
     'index.html',
     'css/styles.css',
     'js/app.js',
-    'js/countryPhoneLengths.js',
     'images/dm.png',
-    'manifest.json'
+    'manifest.json',
+    'offline.html' // Make sure you have this file
 ];
 
 // Install event: caching static assets for offline use
@@ -25,13 +25,19 @@ self.addEventListener('install', (event) => {
 self.addEventListener('fetch', (event) => {
     event.respondWith(
         caches.match(event.request).then((response) => {
-            return response || fetch(event.request).then((networkResponse) => {
+            if (response) {
+                return response;
+            }
+            return fetch(event.request).then((networkResponse) => {
                 return caches.open(CACHE_NAME).then((cache) => {
                     cache.put(event.request, networkResponse.clone());
                     return networkResponse;
                 });
             });
-        }).catch(() => caches.match('/offline.html')) // Serve offline fallback
+        }).catch(() => {
+            // Serve offline fallback if available
+            return caches.match('offline.html');
+        })
     );
 });
 
