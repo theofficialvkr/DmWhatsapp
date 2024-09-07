@@ -98,11 +98,14 @@ input[type="tel"]:focus {
     box-shadow: 0px 12px 24px rgba(255, 65, 108, 0.6);
 }
 
+/* Error message styling */
 .error-message {
     color: red;
     margin-bottom: 1rem;
-    visibility: hidden;
+    display: none; /* Initially hidden */
+    font-size: 0.9rem;
 }
+
 
 .error-message.show {
     visibility: visible;
