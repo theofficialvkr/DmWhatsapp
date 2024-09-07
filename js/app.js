@@ -54,10 +54,25 @@ function populateCountrySelect() {
 
 // Update placeholder and global country code
 function updatePlaceholderAndCountryCode(countryCode) {
-    // Ensure only one '+' at the beginning
-    countryCode = countryCode.startsWith('+') ? countryCode : `+${countryCode}`;
+    // Remove any leading '+' characters and re-add a single one
+    countryCode = `+${countryCode.replace(/\++/g, '')}`;
     phoneInput.placeholder = `Enter mobile number (${countryCode})`;
     currentCountryCode = countryCode;
+}
+
+// Initialize app
+async function initializeApp() {
+    const countryCode = await fetchCountryDialingCode();
+    
+    if (countryCode) {
+        updatePlaceholderAndCountryCode(countryCode);
+    } else {
+        phoneInput.placeholder = 'Enter mobile number';
+        populateCountrySelect();
+        countrySelect.addEventListener('change', () => {
+            updatePlaceholderAndCountryCode(countrySelect.value);
+        });
+    }
 }
 
 // Validate and send WhatsApp message
