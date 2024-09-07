@@ -1,113 +1,102 @@
-/* Basic styles for better design and UX */
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
     margin: 0;
     padding: 0;
-    background: linear-gradient(to right, #25D366, #128C7E);
-    color: #fff;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+    background-color: #ffffff;
     padding: 20px;
-    box-sizing: border-box;
-}
-
-header {
-    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
 }
 
 .logo {
-    width: 120px;
-    border-radius: 50%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 100px;
+    margin-bottom: 20px;
 }
 
 h1 {
-    font-size: 2rem;
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+p.error-message {
+    color: #d9534f;
     margin: 10px 0;
-    animation: fadeIn 1s ease-in-out;
+    font-size: 14px;
 }
 
-.main {
-    max-width: 400px;
-    width: 100%;
-}
-
-.form-group {
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-input[type="tel"], input[type="text"], select {
-    width: 100%;
-    padding: 12px;
+input[type="tel"] {
+    width: calc(100% - 22px); /* Adjust width to account for padding and border */
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    border: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    font-size: 1rem;
+    font-size: 16px;
+    box-sizing: border-box;
 }
 
 button {
-    background-color: #ffffff;
-    color: #128C7E;
+    background-color: #25D366;
+    color: #ffffff;
     border: none;
-    padding: 12px 20px;
+    padding: 10px;
     border-radius: 5px;
-    font-size: 1rem;
-    margin: 5px;
     cursor: pointer;
+    width: 100%;
+    font-size: 16px;
     transition: background-color 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 button:hover {
-    background-color: #f1f1f1;
+    background-color: #1ebc5d;
 }
 
-button:active {
-    background-color: #e0e0e0;
-}
-
-.error-message {
-    color: #ff4d4d;
-    font-weight: bold;
-    margin: 10px 0;
+.hidden {
     display: none;
-    animation: shake 0.5s ease;
 }
 
-.install-app {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #ffffff;
-    color: #128C7E;
-    padding: 12px 20px;
+select {
+    width: calc(100% - 22px); /* Adjust width to account for padding and border */
+    padding: 10px;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    display: none;
+    margin-bottom: 10px;
+    font-size: 16px;
+    box-sizing: border-box;
 }
 
-.install-app.show {
-    display: block;
-}
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-/* Animations */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
+    .logo {
+        width: 80px;
+    }
 
-@keyframes shake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-10px); }
-    50% { transform: translateX(10px); }
-    75% { transform: translateX(-10px); }
-    100% { transform: translateX(0); }
+    h1 {
+        font-size: 20px;
+    }
+
+    input[type="tel"], select {
+        width: calc(100% - 18px); /* Adjust width for smaller screens */
+    }
+
+    button {
+        font-size: 14px;
+    }
 }
