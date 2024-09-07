@@ -195,7 +195,7 @@ async function fetchCountryDialingCode() {
     try {
         const response = await fetch('https://ipapi.co/json/');
         if (!response.ok) throw new Error('Network response was not ok');
-   const data = await response.json();
+        const data = await response.json();
         return `+${data.country_calling_code}`;
     } catch (error) {
         console.error('Error fetching country dialing code:', error);
@@ -254,7 +254,7 @@ sendMessageButton.addEventListener('click', () => {
 // Initialize app
 async function initializeApp() {
     const countryCode = await fetchCountryDialingCode();
-
+    
     if (countryCode) {
         updatePlaceholderAndCountryCode(countryCode);
     } else {
@@ -266,4 +266,4 @@ async function initializeApp() {
     }
 }
 
-initializeApp();     
+initializeApp();
