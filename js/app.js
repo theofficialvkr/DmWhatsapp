@@ -182,18 +182,23 @@ const countryPhoneLengths = {
     '+998': 9, // Uzbekistan
 };
 
+
+
 const phoneInput = document.getElementById('phoneNumber');
 const countrySelect = document.getElementById('countrySelect');
 const sendMessageButton = document.getElementById('sendMessage');
 const errorElement = document.getElementById('error');
 
-// Fetch country dialing codes
+// Store country code globally
+let currentCountryCode = '+91'; // Default to India if no API response
+
+// Fetch country dialing code from API
 async function fetchCountryDialingCode() {
     try {
         const response = await fetch('https://ipapi.co/json/');
         if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
-        return data.country_code;
+        return `+${data.country_calling_code}`;
     } catch (error) {
         console.error('Error fetching country dialing code:', error);
         return null;
@@ -209,13 +214,15 @@ function populateCountrySelect() {
     countrySelect.hidden = false;
 }
 
+// Update placeholder and global country code
+function updatePlaceholderAndCountryCode(countryCode) {
+    phoneInput.placeholder = `Enter mobile number (${countryCode})`;
+    currentCountryCode = countryCode;
+}
+
 // Validate and send WhatsApp message
 function validateAndSendMessage() {
     const phoneNumber = phoneInput.value.trim();
-    const selectedCountryCode = countrySelect.value || '';
-    const countryCode = selectedCountryCode || '+91'; // Default code if country select is not visible
-
-    // Remove any non-numeric characters from the phone number
     const cleanPhoneNumber = phoneNumber.replace(/\D/g, '');
 
     if (cleanPhoneNumber.length === 0) {
@@ -223,7 +230,7 @@ function validateAndSendMessage() {
         return;
     }
 
-    const length = countryPhoneLengths[countryCode];
+    const length = countryPhoneLengths[currentCountryCode];
     if (!length) {
         errorElement.textContent = 'Invalid country code.';
         return;
@@ -234,7 +241,7 @@ function validateAndSendMessage() {
         return;
     }
 
-    const whatsappURL = `https://wa.me/${countryCode}${cleanPhoneNumber}`;
+    const whatsappURL = `https://wa.me/${currentCountryCode}${cleanPhoneNumber}`;
     window.open(whatsappURL, '_blank');
 }
 
@@ -243,16 +250,18 @@ sendMessageButton.addEventListener('click', () => {
     validateAndSendMessage();
 });
 
-// Initialize
+// Initialize app
 async function initializeApp() {
     const countryCode = await fetchCountryDialingCode();
-
+    
     if (countryCode) {
-        const defaultCountryCode = `+${countryCode}`;
-        phoneInput.placeholder = `Enter mobile number (${defaultCountryCode})`;
+        updatePlaceholderAndCountryCode(countryCode);
     } else {
         phoneInput.placeholder = 'Enter mobile number';
         populateCountrySelect();
+        countrySelect.addEventListener('change', () => {
+            updatePlaceholderAndCountryCode(countrySelect.value);
+        });
     }
 }
 
