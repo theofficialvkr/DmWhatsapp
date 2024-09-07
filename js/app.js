@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     async function fetchCountryData() {
         try {
             // Fetch country phone lengths from a static or dynamic source
-            countryPhoneLengths = await fetch('/path/to/countryPhoneLengths.json').then(response => response.json());
+            countryPhoneLengths = await fetch('js/countryPhoneLengths.json').then(response => response.json());
 
             // Fetch country code using IP API
             const response = await fetch('https://ipapi.co/json/');
