@@ -6,16 +6,118 @@
     <title>Direct Message for WhatsApp</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Inline CSS for quick prototyping, ideally should be in /css/styles.css */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #25D366, #128C7E);
+            color: #fff;
+            text-align: center;
+            overflow-x: hidden;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+        }
+        .logo {
+            width: 120px;
+            margin-bottom: 20px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            font-size: 2rem;
+            margin: 10px 0;
+            animation: fadeIn 1s ease-in-out;
+        }
+        p {
+            margin: 10px 0;
+            font-size: 1.2rem;
+            color: #ffd700;
+            animation: slideIn 1s ease-in-out;
+        }
+        .error-message {
+            color: #ff4d4d;
+            font-weight: bold;
+            margin-top: 10px;
+            display: none;
+            animation: shake 0.5s ease;
+        }
+        input[type="tel"] {
+            padding: 10px;
+            width: 100%;
+            max-width: 400px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        button {
+            background-color: #ffffff;
+            color: #128C7E;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        button:hover {
+            background-color: #f1f1f1;
+        }
+        button:active {
+            background-color: #e0e0e0;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
+        }
+        .install-app {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #ffffff;
+            color: #128C7E;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
+        .install-app.show {
+            display: block;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <img src="images/dm.png" alt="App Logo" class="logo">
-        <h1>Send WhatsApp Message without Saving Number</h1>
-        <p id="error" class="error-message"></p>
+        <h1>Send WhatsApp Messages Without Saving Numbers</h1>
+        <p id="error" class="error-message">Please enter a valid mobile number.</p>
         <label for="phoneNumber">Enter Mobile Number:</label>
-        <input type="tel" id="phoneNumber" placeholder="Enter number" required>
+        <input type="tel" id="phoneNumber" placeholder="Enter your mobile number" required>
+        <input type="text" id="message" placeholder="Type your message (optional)" />
         <button id="sendMessage">Send WhatsApp Message</button>
-        <button id="installApp">Install App</button>
+        <div id="installApp" class="install-app">Install App</div>
     </div>
     <script src="js/countryPhoneLengths.js"></script>
     <script src="js/app.js"></script>
