@@ -11,13 +11,13 @@ function validatePhoneNumber(phoneNumber, countryCode) {
     return phoneNumber.length === phoneLength;
 }
 
-// Get user location to auto-detect country code
+// Get user location to auto-detect country code and set placeholder
 fetch('https://ipapi.co/json')
     .then(response => response.json())
     .then(data => {
-        const countryCode = data.country_calling_code;
+        const countryCode = data.country_calling_code;  // Extract country code from the API response
         if (countryCode) {
-            document.querySelector('#phoneNumber').placeholder = `Enter number (${countryCode})`;
+            document.querySelector('#phoneNumber').placeholder = `Enter Mobile Number (${countryCode})`;
         } else {
             document.querySelector('#error').textContent = 'Unable to determine country code. Please check your input.';
         }
@@ -31,8 +31,8 @@ fetch('https://ipapi.co/json')
 document.querySelector('#sendMessage').addEventListener('click', () => {
     const phoneNumber = document.querySelector('#phoneNumber').value.trim();
     const placeholderText = document.querySelector('#phoneNumber').placeholder;
-    const countryCodeMatch = placeholderText.match(/(.*?)/);
-    
+    const countryCodeMatch = placeholderText.match(/(.*?)/);  // Extract country code from the placeholder
+
     if (!countryCodeMatch) {
         document.querySelector('#error').textContent = 'Country code is missing in placeholder.';
         return;
@@ -49,15 +49,17 @@ document.querySelector('#sendMessage').addEventListener('click', () => {
     window.open(`https://wa.me/${countryCode.replace('+', '')}${phoneNumber}`, '_blank');
 });
 
-// Handle the install prompt
+// Handle the install prompt for PWA
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
+    console.log('beforeinstallprompt event triggered');
     deferredPrompt = e;
     document.querySelector('#installApp').style.display = 'block';
 });
 
 document.querySelector('#installApp').addEventListener('click', () => {
     if (deferredPrompt) {
+        console.log('Install button clicked');
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choice) => {
             if (choice.outcome === 'accepted') {
