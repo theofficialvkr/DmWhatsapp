@@ -1,4 +1,5 @@
 const countryPhoneLengths = {
+    // Your countryPhoneLengths object
     '+1': 10, // USA, Canada
     '+20': 10, // Egypt
     '+30': 10, // Greece
@@ -182,15 +183,13 @@ const countryPhoneLengths = {
     '+998': 9, // Uzbekistan
 };
 
-
 const phoneInput = document.getElementById('phoneNumber');
 const countrySelect = document.getElementById('countrySelect');
 const sendMessageButton = document.getElementById('sendMessage');
 const errorElement = document.getElementById('error');
 
 // Store country code globally
-let currentCountryCode = '+91'; // Default to India if no API response
-
+let currentCountryCode = '+91';
 // Fetch country dialing code from API
 async function fetchCountryDialingCode() {
     try {
