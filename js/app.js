@@ -1,112 +1,105 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const phoneNumberInput = document.getElementById('phoneNumber');
+document.addEventListener('DOMContentLoaded', () => {
+    const phoneInput = document.getElementById('phoneNumber');
     const sendMessageBtn = document.getElementById('sendMessage');
-    const errorMessage = document.getElementById('error');
     const installAppBtn = document.getElementById('installApp');
-    const messageInput = document.getElementById('message');
-    const countrySelect = document.getElementById('countrySelect');
-    let countryCode = ''; // Fetched country code
-    let countryPhoneLengths = {}; // Country phone lengths map
+    const errorMessage = document.getElementById('error');
+    const countryCodePlaceholder = '+1'; // Default placeholder
+    let countryPhoneLengths = {}; // Will be loaded dynamically
 
-    // Fetch country code and phone lengths
-    async function fetchCountryData() {
-        try {
-            // Fetch country phone lengths from a static or dynamic source
-            countryPhoneLengths = await fetch('js/countryPhoneLengths.json').then(response => response.json());
-
-            // Fetch country code using IP API
-            const response = await fetch('https://ipapi.co/json/');
-            const data = await response.json();
-            countryCode = data.country_calling_code || '';
-            populateCountrySelect();
-            setDefaultCountry();
-        } catch (error) {
-            console.error("Failed to fetch country data: ", error);
-            displayError('Unable to determine country code. Please manually select your country.');
-        }
-    }
-
-    // Populate country select dropdown
-    function populateCountrySelect() {
-        for (const [code, length] of Object.entries(countryPhoneLengths)) {
-            const option = document.createElement('option');
-            option.value = code;
-            option.textContent = `Country (${code})`; // Replace with actual country names
-            countrySelect.appendChild(option);
-        }
-    }
-
-    // Set default country selection if country code is known
-    function setDefaultCountry() {
-        if (countryCode) {
-            countrySelect.value = countryCode;
-        }
-    }
-
-    // Validate phone number based on country code
-    function validatePhoneNumber(phoneNumber) {
-        const validLength = countryPhoneLengths[countryCode];
-        return phoneNumber.length === validLength && /^\d+$/.test(phoneNumber);
-    }
-
-    // Add event listener to send WhatsApp message
-    sendMessageBtn.addEventListener('click', function () {
-        const phoneNumber = phoneNumberInput.value.trim();
-        const message = messageInput.value.trim();
-        const selectedCountryCode = countrySelect.value || countryCode;
-        const fullPhoneNumber = selectedCountryCode + phoneNumber;
-
-        if (!validatePhoneNumber(phoneNumber)) {
-            displayError('Please enter a valid mobile number.');
-            return;
-        }
-
-        // Clear any error messages
-        clearError();
-
-        // Prepare WhatsApp URL with optional message
-        const whatsappURL = `https://wa.me/${fullPhoneNumber}?text=${encodeURIComponent(message)}`;
-        window.open(whatsappURL, '_blank');
-    });
-
-    // Install app functionality
-    let deferredPrompt;
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        installAppBtn.classList.add('show');
-
-        installAppBtn.addEventListener('click', () => {
-            installAppBtn.classList.remove('show');
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('User installed the app');
-                } else {
-                    console.log('User dismissed the install prompt');
-                }
-                deferredPrompt = null;
+    // Function to fetch country phone lengths from a JSON file
+    function fetchCountryData() {
+        fetch('/js/countryPhoneLengths.js')
+            .then(response => response.json())
+            .then(data => {
+                countryPhoneLengths = data;
+                // Update the placeholder with the default country code
+                phoneInput.placeholder = `Enter mobile number (${countryCodePlaceholder})`;
+            })
+            .catch(() => {
+                displayError('Unable to fetch country phone lengths. Please try again later.');
             });
-        });
-    });
+    }
 
-    window.addEventListener('appinstalled', () => {
-        console.log('App successfully installed');
-    });
+    // Function to fetch country code based on IP
+    function fetchCountryCode() {
+        fetch('https://ipapi.co/json/')
+            .then(response => response.json())
+            .then(data => {
+                if (data.country_code && data.country_calling_code) {
+                    countryCodePlaceholder = data.country_calling_code;
+                    phoneInput.placeholder = `Enter mobile number (${countryCodePlaceholder})`;
+                } else {
+                    phoneCodePlaceholder = '+1'; // Fallback to default if API fails
+                    phoneInput.placeholder = `Enter mobile number (${countryCodePlaceholder})`;
+                }
+            })
+            .catch(() => {
+                phoneCodePlaceholder = '+1'; // Fallback to default
+                phoneInput.placeholder = `Enter mobile number (${countryCodePlaceholder})`;
+            });
+    }
 
-    // Display error message
+    // Function to validate the phone number
+    function validatePhoneNumber(number) {
+        const cleanedNumber = number.replace(/[^0-9]/g, ''); // Remove non-digit characters
+        const length = countryPhoneLengths[countryCodePlaceholder];
+        if (cleanedNumber.length !== length) {
+            displayError(`Please enter a ${length}-digit phone number.`);
+            return false;
+        }
+        return true;
+    }
+
+    // Function to display an error message
     function displayError(message) {
         errorMessage.textContent = message;
         errorMessage.style.display = 'block';
     }
 
-    // Clear error message
+    // Function to clear the error message
     function clearError() {
         errorMessage.textContent = '';
         errorMessage.style.display = 'none';
     }
 
+    // Event handler for the send message button
+    sendMessageBtn.addEventListener('click', () => {
+        const phoneNumber = phoneInput.value.trim();
+        clearError();
+        if (validatePhoneNumber(phoneNumber)) {
+            const fullNumber = `${countryCodePlaceholder}${phoneNumber}`;
+            window.open(`https://wa.me/${fullNumber}`, '_blank');
+        }
+    });
+
+    // Event handler for the install app button
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        installAppBtn.style.display = 'block';
+    });
+
+    installAppBtn.addEventListener('click', () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the A2HS prompt');
+                } else {
+                    console.log('User dismissed the A2HS prompt');
+                }
+                deferredPrompt = null;
+            });
+        }
+    });
+
+    // Check if the app is installed and hide the install button if true
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+        installAppBtn.style.display = 'none';
+    }
+
     // Initialize
+    fetchCountryCode();
     fetchCountryData();
 });
