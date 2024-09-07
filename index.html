@@ -49,7 +49,17 @@
             display: none;
             animation: shake 0.5s ease;
         }
-        input[type="tel"] {
+        input[type="tel"], input[type="text"] {
+            padding: 10px;
+            width: 100%;
+            max-width: 400px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        select {
             padding: 10px;
             width: 100%;
             max-width: 400px;
@@ -113,6 +123,11 @@
         <img src="images/dm.png" alt="App Logo" class="logo">
         <h1>Send WhatsApp Messages Without Saving Numbers</h1>
         <p id="error" class="error-message">Please enter a valid mobile number.</p>
+        <label for="countrySelect">Select Country:</label>
+        <select id="countrySelect">
+            <option value="">Select your country</option>
+            <!-- Dynamically populated with country options -->
+        </select>
         <label for="phoneNumber">Enter Mobile Number:</label>
         <input type="tel" id="phoneNumber" placeholder="Enter your mobile number" required>
         <input type="text" id="message" placeholder="Type your message (optional)" />
