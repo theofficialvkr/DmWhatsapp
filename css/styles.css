@@ -1,59 +1,140 @@
-/* Reset and base styles */
-body {
-    font-family: Arial, sans-serif;
+/* Base Styling */
+* {
     margin: 0;
     padding: 0;
-    background-color: #f5f5f5;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    max-width: 400px;
     text-align: center;
+    position: relative;
+    animation: fadeIn 1s ease-in-out;
 }
 
 .logo {
-    width: 100px;
-    margin-bottom: 20px;
+    width: 60px;
+    animation: bounceIn 1.5s ease;
 }
 
-h1 {
+h1.title {
+    font-size: 1.8rem;
     color: #333;
+    margin-top: 1rem;
+    font-weight: 600;
+    animation: slideIn 1s ease-in-out;
+}
+
+p.subtitle {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    animation: fadeIn 1.2s ease;
+}
+
+.input-group {
+    margin: 1.5rem 0;
+}
+
+.input-group label {
+    display: block;
+    color: #555;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
 }
 
 input[type="tel"] {
-    width: calc(100% - 22px);
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    transition: 0.3s ease;
+    font-size: 1rem;
 }
 
-button {
-    padding: 10px 20px;
+input[type="tel"]:focus {
+    border-color: #ff416c;
+    outline: none;
+    box-shadow: 0px 8px 16px rgba(255, 65, 108, 0.2);
+}
+
+.btn {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
     border: none;
-    border-radius: 5px;
-    background-color: #25D366;
-    color: white;
-    font-size: 16px;
+    padding: 1rem;
+    color: #fff;
+    width: 100%;
+    font-size: 1rem;
+    border-radius: 8px;
     cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 8px 20px rgba(255, 65, 108, 0.4);
 }
 
-button:hover {
-    background-color: #1aa34a;
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 12px 24px rgba(255, 65, 108, 0.6);
 }
 
 .error-message {
     color: red;
-    font-size: 14px;
+    margin-bottom: 1rem;
+    visibility: hidden;
 }
 
-select {
-    width: calc(100% - 22px);
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.error-message.show {
+    visibility: visible;
 }
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounceIn {
+    from {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+    
