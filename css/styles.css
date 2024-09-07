@@ -109,12 +109,12 @@ input[type="tel"]:focus {
     background-image: url('https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg');
     background-size: 24px 24px; /* Adjusted size for better visibility */
     background-repeat: no-repeat;
-    background-position: 12px center;
+    background-position: left;
     width: 30px;
     height: 24px;
     display: inline-block;
     vertical-align: middle;
-    margin-right: 20px; /* Space between icon and text */
+    margin-right: 10px; /* Space between icon and text */
 }
 
 /* Button Hover */
