@@ -181,3 +181,4 @@ const countryPhoneLengths = {
     '+996': 9, // Kyrgyzstan
     '+998': 9, // Uzbekistan
 };
+export default countryPhoneLengths;
