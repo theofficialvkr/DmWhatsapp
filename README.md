@@ -15,7 +15,7 @@ Instagram </a>
 Twitter </a> </li> <li>
   <a href="https://facebook.com/theofficialvkr"> 
 Facebook </a> </li> <li>
-  <a href="https://t.me/theofficialvkr"> 
+  <a href="https://t.me/dmwhatsapp"> 
 Telegram  </a> </li> <li>
 
 
