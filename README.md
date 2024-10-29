@@ -1,5 +1,5 @@
 # DirectMessgae
-Set Direct WhatsApp Message Without Saving Mobile Number
+Send Direct WhatsApp Message Without Saving Mobile Number
 
 # installation
 just publish it 👍
